@@ -1,0 +1,328 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/categorias":
+    get:
+      summary: Listar Categorias
+      parameters:
+      - name: page
+        in: query
+        description: Número da página
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Número de itens por página
+        schema:
+          type: integer
+      tags:
+      - Categorias
+      responses:
+        '200':
+          description: categorias encontradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/categoria"
+    post:
+      summary: Criar Categoria
+      tags:
+      - Categorias
+      parameters: []
+      responses:
+        '201':
+          description: categoria criada
+        '422':
+          description: categoria não criada
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                descricao:
+                  type: string
+              required:
+              - nome
+  "/categorias/{id}":
+    get:
+      summary: Exibir uma Categoria
+      tags:
+      - Categorias
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: categoria encontrada
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/categoria"
+        '404':
+          description: categoria não encontrada
+    put:
+      summary: Atualizar uma Categoria
+      tags:
+      - Categorias
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: categoria atualizada
+        '404':
+          description: categoria não encontrada
+        '422':
+          description: categoria não atualizada
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                descricao:
+                  type: string
+              required:
+              - nome
+  "/produtos":
+    get:
+      summary: Listar Produtos
+      parameters:
+      - name: page
+        in: query
+        description: Número da página
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Número de itens por página
+        schema:
+          type: integer
+      tags:
+      - Produtos
+      responses:
+        '200':
+          description: produtos encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nome:
+                      type: string
+                    descricao:
+                      type: string
+                    preco:
+                      type: number
+                    categoria_id:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - id
+                  - nome
+                  - descricao
+                  - preco
+                  - categoria_id
+                  - created_at
+                  - updated_at
+    post:
+      summary: Criar Produto
+      tags:
+      - Produtos
+      parameters: []
+      responses:
+        '201':
+          description: produto criado
+        '422':
+          description: produto não criado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                descricao:
+                  type: string
+                preco:
+                  type: number
+                categoria_id:
+                  type: integer
+              required:
+              - nome
+              - preco
+              - categoria_id
+  "/produtos/{id}":
+    get:
+      summary: Buscar um Produto pelo seu ID
+      tags:
+      - Produtos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: produto encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  descricao:
+                    type: string
+                  preco:
+                    type: number
+                  categoria_id:
+                    type: integer
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                required:
+                - id
+                - nome
+                - descricao
+                - preco
+                - categoria_id
+                - created_at
+                - updated_at
+        '404':
+          description: produto não encontrado
+    put:
+      summary: Atualizar Produto
+      tags:
+      - Produtos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: produto atualizado
+        '404':
+          description: produto não encontrado
+        '422':
+          description: produto não atualizado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                descricao:
+                  type: string
+                preco:
+                  type: number
+                categoria_id:
+                  type: integer
+              required:
+              - nome
+              - preco
+              - categoria_id
+  "/produtos/nome/{nome}":
+    get:
+      summary: Busca Produtos por nome
+      tags:
+      - Produtos
+      parameters:
+      - name: nome
+        in: path
+        description: Nome do produto
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Produtos encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/produto"
+        '404':
+          description: Nenhum produto encontrado
+components:
+  schemas:
+    produto:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+        preco:
+          type: number
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - nome
+      - descricao
+      - preco
+    categoria:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - nome
+      - descricao
