@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   root "categorias#index"
 
-  resources :produtos do
+  resources :produtos, param: :slug do
     collection do
       get 'nome/:nome', to: 'produtos#search_by_nome', as: :search_produtos_by_nome
       get 'ativos'

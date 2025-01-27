@@ -10,21 +10,7 @@ RSpec.describe 'Produtos API', type: :request do
       produces 'application/json'
 
       response '200', 'produtos encontrados' do
-        schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id: { type: :integer },
-                   nome: { type: :string },
-                   slug: { type: :string },
-                   descricao: { type: :string },
-                   preco: { type: :number },
-                   categoria_id: { type: :integer },
-                   created_at: { type: :string, format: 'date-time' },
-                   updated_at: { type: :string, format: 'date-time' }
-                 },
-                 required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
-               }
+        schema type: :array, items: { '$ref' => '#/components/schemas/produto' }
         run_test!
       end
     end
@@ -33,30 +19,11 @@ RSpec.describe 'Produtos API', type: :request do
       tags 'Produtos'
       consumes 'application/json'
       parameter name: :produto, in: :body, schema: {
-        type: :object,
-        properties: {
-          nome: { type: :string },
-          slug: { type: :string },
-          descricao: { type: :string },
-          preco: { type: :number },
-          categoria_id: { type: :integer }
-        },
-        required: ['nome', 'slug', 'preco', 'categoria_id']
+        '$ref' => '#/components/schemas/produto'
       }
 
       response '201', 'produto criado' do
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 nome: { type: :string },
-                 slug: { type: :string },
-                 descricao: { type: :string },
-                 preco: { type: :number },
-                 categoria_id: { type: :integer },
-                 created_at: { type: :string, format: 'date-time' },
-                 updated_at: { type: :string, format: 'date-time' }
-               },
-               required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+        schema '$ref' => '#/components/schemas/produto'
 
         let(:produto) { { nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1 } }
         run_test!
@@ -71,38 +38,27 @@ RSpec.describe 'Produtos API', type: :request do
                  }
                }
 
-        let(:produto) { { nome: '', slug: '' } }
+        let(:produto) { { nome: '', preco: '' } }
         run_test!
       end
     end
   end
 
-  path '/produtos/{id}' do
-    get 'Buscar um Produto pelo seu ID' do
+  path '/produtos/{slug}' do
+    get 'Busca um Produto pelo seu Slug' do
       tags 'Produtos'
       produces 'application/json'
-      parameter name: :id, in: :path, type: :integer
+      parameter name: :slug, in: :path, type: :string
 
       response '200', 'produto encontrado' do
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 nome: { type: :string },
-                 slug: { type: :string },
-                 descricao: { type: :string },
-                 preco: { type: :number },
-                 categoria_id: { type: :integer },
-                 created_at: { type: :string, format: 'date-time' },
-                 updated_at: { type: :string, format: 'date-time' }
-               },
-               required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+        schema '$ref' => '#/components/schemas/produto'
 
-        let(:id) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
+        let(:slug) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).slug }
         run_test!
       end
 
       response '404', 'produto não encontrado' do
-        let(:id) { 'invalid' }
+        let(:slug) { 'invalid' }
         run_test!
       end
     end
@@ -112,27 +68,14 @@ RSpec.describe 'Produtos API', type: :request do
         tags 'Produtos'
         produces 'application/json'
         parameter name: :nome, in: :path, type: :string, description: 'Nome do produto'
-  
+
         response '200', 'Produtos encontrados' do
-          schema type: :array,
-                 items: {
-                   type: :object,
-                   properties: {
-                     id: { type: :integer },
-                     nome: { type: :string },
-                     slug: { type: :string },
-                     descricao: { type: :string },
-                     preco: { type: :number },
-                     categoria_id: { type: :integer },
-                     created_at: { type: :string, format: 'date-time' },
-                     updated_at: { type: :string, format: 'date-time' }
-                   }
-                 }
-  
+          schema type: :array, items: { '$ref' => '#/components/schemas/produto' }
+
           let(:nome) { 'ProdutoExemplo' }
           run_test!
         end
-  
+
         response '404', 'Nenhum produto encontrado' do
           let(:nome) { 'NomeInexistente' }
           run_test!
@@ -143,40 +86,21 @@ RSpec.describe 'Produtos API', type: :request do
     put 'Atualizar Produto' do
       tags 'Produtos'
       consumes 'application/json'
-      parameter name: :id, in: :path, type: :integer
+      parameter name: :slug, in: :path, type: :string
       parameter name: :produto, in: :body, schema: {
-        type: :object,
-        properties: {
-          nome: { type: :string },
-          slug: { type: :string },
-          descricao: { type: :string },
-          preco: { type: :number },
-          categoria_id: { type: :integer }
-        },
-        required: ['nome', 'slug', 'preco', 'categoria_id']
+        '$ref' => '#/components/schemas/produto'
       }
 
       response '200', 'produto atualizado' do
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 nome: { type: :string },
-                 slug: { type: :string },
-                 descricao: { type: :string },
-                 preco: { type: :number },
-                 categoria_id: { type: :integer },
-                 created_at: { type: :string, format: 'date-time' },
-                 updated_at: { type: :string, format: 'date-time' }
-               },
-               required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+        schema '$ref' => '#/components/schemas/produto'
 
-        let(:id) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
+        let(:slug) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).slug }
         let(:produto) { { nome: 'Hamburguer Atualizado', slug: 'hamburguer-atualizado', descricao: 'Hamburguer de carne com queijo e bacon', preco: 20.0, categoria_id: 1 } }
         run_test!
       end
 
       response '404', 'produto não encontrado' do
-        let(:id) { 'invalid' }
+        let(:slug) { 'invalid' }
         run_test!
       end
 
@@ -189,7 +113,7 @@ RSpec.describe 'Produtos API', type: :request do
                  }
                }
 
-        let(:id) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
+        let(:slug) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).slug }
         let(:produto) { { nome: '', slug: '' } }
         run_test!
       end

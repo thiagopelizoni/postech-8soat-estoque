@@ -126,35 +126,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nome:
-                      type: string
-                    slug:
-                      type: string
-                    descricao:
-                      type: string
-                    preco:
-                      type: number
-                    categoria_id:
-                      type: integer
-                    created_at:
-                      type: string
-                      format: date-time
-                    updated_at:
-                      type: string
-                      format: date-time
-                  required:
-                  - id
-                  - nome
-                  - slug
-                  - descricao
-                  - preco
-                  - categoria_id
-                  - created_at
-                  - updated_at
+                  "$ref": "#/components/schemas/produto"
     post:
       summary: Criar Produto
       tags:
@@ -169,69 +141,25 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                nome:
-                  type: string
-                slug:
-                  type: string
-                descricao:
-                  type: string
-                preco:
-                  type: number
-                categoria_id:
-                  type: integer
-              required:
-              - nome
-              - slug
-              - preco
-              - categoria_id
-  "/produtos/{id}":
+              "$ref": "#/components/schemas/produto"
+  "/produtos/{slug}":
     get:
-      summary: Buscar um Produto pelo seu ID
+      summary: Busca um Produto pelo seu Slug
       tags:
       - Produtos
       parameters:
-      - name: id
+      - name: slug
         in: path
         required: true
         schema:
-          type: integer
+          type: string
       responses:
         '200':
           description: produto encontrado
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  nome:
-                    type: string
-                  slug:
-                    type: string
-                  descricao:
-                    type: string
-                  preco:
-                    type: number
-                  categoria_id:
-                    type: integer
-                  created_at:
-                    type: string
-                    format: date-time
-                  updated_at:
-                    type: string
-                    format: date-time
-                required:
-                - id
-                - nome
-                - slug
-                - descricao
-                - preco
-                - categoria_id
-                - created_at
-                - updated_at
+                "$ref": "#/components/schemas/produto"
         '404':
           description: produto não encontrado
     put:
@@ -239,11 +167,11 @@ paths:
       tags:
       - Produtos
       parameters:
-      - name: id
+      - name: slug
         in: path
         required: true
         schema:
-          type: integer
+          type: string
       responses:
         '200':
           description: produto atualizado
@@ -255,23 +183,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                nome:
-                  type: string
-                slug:
-                  type: string
-                descricao:
-                  type: string
-                preco:
-                  type: number
-                categoria_id:
-                  type: integer
-              required:
-              - nome
-              - slug
-              - preco
-              - categoria_id
+              "$ref": "#/components/schemas/produto"
   "/produtos/nome/{nome}":
     get:
       summary: Busca Produtos por nome
@@ -292,26 +204,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nome:
-                      type: string
-                    slug:
-                      type: string
-                    descricao:
-                      type: string
-                    preco:
-                      type: number
-                    categoria_id:
-                      type: integer
-                    created_at:
-                      type: string
-                      format: date-time
-                    updated_at:
-                      type: string
-                      format: date-time
+                  "$ref": "#/components/schemas/produto"
         '404':
           description: Nenhum produto encontrado
 components:
