@@ -13,21 +13,6 @@ class CategoriasController < ApplicationController
     render json: @categoria
   end
 
-  def search
-    query_params = params.slice(:nome, :descricao)
-    @categorias = Categoria.where(nil)
-    
-    query_params.each do |key, value|
-      @categorias = @categorias.where("#{key} ILIKE ?", "%#{value}%").page(params[:page]).per(params[:per_page])
-    end
-
-    if @categorias.exists?
-      render json: @categorias
-    else
-      render json: { message: "Nenhuma categoria encontrado com os parâmetros fornecidos: #{query_params.to_unsafe_h}" }, status: :not_found
-    end
-  end
-
   # POST /categorias
   def create
     @categoria = Categoria.new(categoria_params)
@@ -54,13 +39,11 @@ class CategoriasController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_categoria
-      @categoria = Categoria.find(params[:id])
-    end
+  def set_categoria
+    @categoria = Categoria.find_by!(slug: params[:slug])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def categoria_params
-      params.require(:categoria).permit(:nome, :descricao)
-    end
+  def categoria_params
+    params.require(:categoria).permit(:nome, :descricao)
+  end
 end

@@ -11,11 +11,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :categorias do
-    collection do
-      get 'search'
-    end
-  end
+  resources :categorias, param: :slug
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
