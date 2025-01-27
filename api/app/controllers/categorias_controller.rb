@@ -3,14 +3,14 @@ class CategoriasController < ApplicationController
 
   # GET /categorias
   def index
-    @categorias = Categoria.page(params[:page]).per(params[:per_page])
+    @categorias = Categoria.select(:nome, :slug).page(params[:page]).per(params[:per_page])
 
     render json: @categorias
   end
 
-  # GET /categorias/1
+  # GET /categorias/:slug
   def show
-    render json: @categoria
+    render json: @categoria, include_produtos: true
   end
 
   # POST /categorias
@@ -24,7 +24,7 @@ class CategoriasController < ApplicationController
     end
   end
 
-  # PATCH/PUT /categorias/1
+  # PATCH/PUT /categorias/:slug
   def update
     if @categoria.update(categoria_params)
       render json: @categoria
@@ -33,7 +33,7 @@ class CategoriasController < ApplicationController
     end
   end
 
-  # DELETE /categorias/1
+  # DELETE /categorias/:slug
   def destroy
     render json: { message: 'Não é permitido excluir uma categoria!' }
   end

@@ -40,9 +40,8 @@ RSpec.configure do |config|
         categoria: {
           type: :object,
           properties: {
-            id: { type: :integer },
+            slug: { type: :string },
             nome: { type: :string },
-            descricao: { type: :string },
             created_at: { type: :string, format: 'date-time' },
             updated_at: { type: :string, format: 'date-time' }
           },

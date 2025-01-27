@@ -47,21 +47,22 @@ paths:
               properties:
                 nome:
                   type: string
-                descricao:
+                slug:
                   type: string
               required:
               - nome
-  "/categorias/{id}":
+              - slug
+  "/categorias/{slug}":
     get:
       summary: Exibir uma Categoria
       tags:
       - Categorias
       parameters:
-      - name: id
+      - name: slug
         in: path
         required: true
         schema:
-          type: integer
+          type: string
       responses:
         '200':
           description: categoria encontrada
@@ -76,11 +77,11 @@ paths:
       tags:
       - Categorias
       parameters:
-      - name: id
+      - name: slug
         in: path
         required: true
         schema:
-          type: integer
+          type: string
       responses:
         '200':
           description: categoria atualizada
@@ -96,10 +97,11 @@ paths:
               properties:
                 nome:
                   type: string
-                descricao:
+                slug:
                   type: string
               required:
               - nome
+              - slug
   "/produtos":
     get:
       summary: Listar Produtos
@@ -310,11 +312,9 @@ components:
     categoria:
       type: object
       properties:
-        id:
-          type: integer
-        nome:
+        slug:
           type: string
-        descricao:
+        nome:
           type: string
         created_at:
           type: string

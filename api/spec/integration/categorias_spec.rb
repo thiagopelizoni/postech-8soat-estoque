@@ -7,7 +7,7 @@ RSpec.describe 'Categorias API', type: :request do
       parameter name: :per_page, in: :query, type: :integer, description: 'Número de itens por página'
       tags 'Categorias'
       produces 'application/json'
-      
+
       response '200', 'categorias encontradas' do
         schema type: :array,
                items: { '$ref' => '#/components/schemas/categoria' }
@@ -22,15 +22,15 @@ RSpec.describe 'Categorias API', type: :request do
         type: :object,
         properties: {
           nome: { type: :string },
-          descricao: { type: :string }
+          slug: { type: :string }
         },
-        required: ['nome']
+        required: ['nome', 'slug']
       }
 
       response '201', 'categoria criada' do
         schema '$ref' => '#/components/schemas/categoria'
 
-        let(:categoria) { { nome: 'Lanches', descricao: 'Lanches variados' } }
+        let(:categoria) { { nome: 'Lanches', slug: 'lanches' } }
         run_test!
       end
 
@@ -43,27 +43,27 @@ RSpec.describe 'Categorias API', type: :request do
                  }
                }
 
-        let(:categoria) { { nome: '' } }
+        let(:categoria) { { nome: '', slug: '' } }
         run_test!
       end
     end
   end
 
-  path '/categorias/{id}' do
+  path '/categorias/{slug}' do
     get 'Exibir uma Categoria' do
       tags 'Categorias'
       produces 'application/json'
-      parameter name: :id, in: :path, type: :integer
+      parameter name: :slug, in: :path, type: :string, required: true
 
       response '200', 'categoria encontrada' do
         schema '$ref' => '#/components/schemas/categoria'
 
-        let(:id) { Categoria.create!(nome: 'Lanches', descricao: 'Lanches variados').id }
+        let(:slug) { Categoria.create!(nome: 'Lanches', slug: 'lanches').slug }
         run_test!
       end
 
       response '404', 'categoria não encontrada' do
-        let(:id) { 'invalid' }
+        let(:slug) { 'invalid' }
         run_test!
       end
     end
@@ -71,26 +71,26 @@ RSpec.describe 'Categorias API', type: :request do
     put 'Atualizar uma Categoria' do
       tags 'Categorias'
       consumes 'application/json'
-      parameter name: :id, in: :path, type: :integer
+      parameter name: :slug, in: :path, type: :string, required: true
       parameter name: :categoria, in: :body, schema: {
         type: :object,
         properties: {
           nome: { type: :string },
-          descricao: { type: :string }
+          slug: { type: :string }
         },
-        required: ['nome']
+        required: ['nome', 'slug']
       }
 
       response '200', 'categoria atualizada' do
         schema '$ref' => '#/components/schemas/categoria'
 
-        let(:id) { Categoria.create!(nome: 'Lanches', descricao: 'Lanches variados').id }
-        let(:categoria) { { nome: 'Lanches Atualizados', descricao: 'Lanches diversos' } }
+        let(:slug) { Categoria.create!(nome: 'Lanches', slug: 'lanches').slug }
+        let(:categoria) { { nome: 'Lanches Atualizados', slug: 'lanches-atualizados' } }
         run_test!
       end
 
       response '404', 'categoria não encontrada' do
-        let(:id) { 'invalid' }
+        let(:slug) { 'invalid' }
         run_test!
       end
 
@@ -103,11 +103,10 @@ RSpec.describe 'Categorias API', type: :request do
                  }
                }
 
-        let(:id) { Categoria.create!(nome: 'Lanches', descricao: 'Lanches variados').id }
-        let(:categoria) { { nome: '' } }
+        let(:slug) { Categoria.create!(nome: 'Lanches', slug: 'lanches').slug }
+        let(:categoria) { { nome: '', slug: '' } }
         run_test!
       end
     end
-
   end
 end
