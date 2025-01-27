@@ -29,6 +29,7 @@ RSpec.configure do |config|
           properties: {
             id: { type: :integer },
             nome: { type: :string },
+            slug: { type: :string },
             descricao: { type: :string },
             preco: { type: :number },
             status: { type: :string },

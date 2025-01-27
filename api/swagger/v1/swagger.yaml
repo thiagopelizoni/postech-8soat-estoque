@@ -132,6 +132,8 @@ paths:
                       type: integer
                     nome:
                       type: string
+                    slug:
+                      type: string
                     descricao:
                       type: string
                     preco:
@@ -147,6 +149,7 @@ paths:
                   required:
                   - id
                   - nome
+                  - slug
                   - descricao
                   - preco
                   - categoria_id
@@ -170,6 +173,8 @@ paths:
               properties:
                 nome:
                   type: string
+                slug:
+                  type: string
                 descricao:
                   type: string
                 preco:
@@ -178,6 +183,7 @@ paths:
                   type: integer
               required:
               - nome
+              - slug
               - preco
               - categoria_id
   "/produtos/{id}":
@@ -203,6 +209,8 @@ paths:
                     type: integer
                   nome:
                     type: string
+                  slug:
+                    type: string
                   descricao:
                     type: string
                   preco:
@@ -218,6 +226,7 @@ paths:
                 required:
                 - id
                 - nome
+                - slug
                 - descricao
                 - preco
                 - categoria_id
@@ -250,6 +259,8 @@ paths:
               properties:
                 nome:
                   type: string
+                slug:
+                  type: string
                 descricao:
                   type: string
                 preco:
@@ -258,6 +269,7 @@ paths:
                   type: integer
               required:
               - nome
+              - slug
               - preco
               - categoria_id
   "/produtos/nome/{nome}":
@@ -280,7 +292,26 @@ paths:
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/produto"
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nome:
+                      type: string
+                    slug:
+                      type: string
+                    descricao:
+                      type: string
+                    preco:
+                      type: number
+                    categoria_id:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
         '404':
           description: Nenhum produto encontrado
 components:
@@ -291,6 +322,8 @@ components:
         id:
           type: integer
         nome:
+          type: string
+        slug:
           type: string
         descricao:
           type: string

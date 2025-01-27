@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_173807) do
 
   create_table "produtos", force: :cascade do |t|
     t.string "nome"
+    t.string "slug"
     t.string "descricao"
     t.float "preco"
     t.string "status", default: "ativo"

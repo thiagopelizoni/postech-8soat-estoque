@@ -8,7 +8,7 @@ RSpec.describe 'Produtos API', type: :request do
       parameter name: :per_page, in: :query, type: :integer, description: 'Número de itens por página'
       tags 'Produtos'
       produces 'application/json'
-      
+
       response '200', 'produtos encontrados' do
         schema type: :array,
                items: {
@@ -16,13 +16,14 @@ RSpec.describe 'Produtos API', type: :request do
                  properties: {
                    id: { type: :integer },
                    nome: { type: :string },
+                   slug: { type: :string },
                    descricao: { type: :string },
                    preco: { type: :number },
                    categoria_id: { type: :integer },
                    created_at: { type: :string, format: 'date-time' },
                    updated_at: { type: :string, format: 'date-time' }
                  },
-                 required: ['id', 'nome', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+                 required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
                }
         run_test!
       end
@@ -35,11 +36,12 @@ RSpec.describe 'Produtos API', type: :request do
         type: :object,
         properties: {
           nome: { type: :string },
+          slug: { type: :string },
           descricao: { type: :string },
           preco: { type: :number },
           categoria_id: { type: :integer }
         },
-        required: ['nome', 'preco', 'categoria_id']
+        required: ['nome', 'slug', 'preco', 'categoria_id']
       }
 
       response '201', 'produto criado' do
@@ -47,15 +49,16 @@ RSpec.describe 'Produtos API', type: :request do
                properties: {
                  id: { type: :integer },
                  nome: { type: :string },
+                 slug: { type: :string },
                  descricao: { type: :string },
                  preco: { type: :number },
                  categoria_id: { type: :integer },
                  created_at: { type: :string, format: 'date-time' },
                  updated_at: { type: :string, format: 'date-time' }
                },
-               required: ['id', 'nome', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+               required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
 
-        let(:produto) { { nome: 'Hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1 } }
+        let(:produto) { { nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1 } }
         run_test!
       end
 
@@ -68,7 +71,7 @@ RSpec.describe 'Produtos API', type: :request do
                  }
                }
 
-        let(:produto) { { nome: '' } }
+        let(:produto) { { nome: '', slug: '' } }
         run_test!
       end
     end
@@ -85,15 +88,16 @@ RSpec.describe 'Produtos API', type: :request do
                properties: {
                  id: { type: :integer },
                  nome: { type: :string },
+                 slug: { type: :string },
                  descricao: { type: :string },
                  preco: { type: :number },
                  categoria_id: { type: :integer },
                  created_at: { type: :string, format: 'date-time' },
                  updated_at: { type: :string, format: 'date-time' }
                },
-               required: ['id', 'nome', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+               required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
 
-        let(:id) { Produto.create!(nome: 'Hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
+        let(:id) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
         run_test!
       end
 
@@ -111,7 +115,19 @@ RSpec.describe 'Produtos API', type: :request do
   
         response '200', 'Produtos encontrados' do
           schema type: :array,
-                 items: { '$ref' => '#/components/schemas/produto' }
+                 items: {
+                   type: :object,
+                   properties: {
+                     id: { type: :integer },
+                     nome: { type: :string },
+                     slug: { type: :string },
+                     descricao: { type: :string },
+                     preco: { type: :number },
+                     categoria_id: { type: :integer },
+                     created_at: { type: :string, format: 'date-time' },
+                     updated_at: { type: :string, format: 'date-time' }
+                   }
+                 }
   
           let(:nome) { 'ProdutoExemplo' }
           run_test!
@@ -132,11 +148,12 @@ RSpec.describe 'Produtos API', type: :request do
         type: :object,
         properties: {
           nome: { type: :string },
+          slug: { type: :string },
           descricao: { type: :string },
           preco: { type: :number },
           categoria_id: { type: :integer }
         },
-        required: ['nome', 'preco', 'categoria_id']
+        required: ['nome', 'slug', 'preco', 'categoria_id']
       }
 
       response '200', 'produto atualizado' do
@@ -144,16 +161,17 @@ RSpec.describe 'Produtos API', type: :request do
                properties: {
                  id: { type: :integer },
                  nome: { type: :string },
+                 slug: { type: :string },
                  descricao: { type: :string },
                  preco: { type: :number },
                  categoria_id: { type: :integer },
                  created_at: { type: :string, format: 'date-time' },
                  updated_at: { type: :string, format: 'date-time' }
                },
-               required: ['id', 'nome', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
+               required: ['id', 'nome', 'slug', 'descricao', 'preco', 'categoria_id', 'created_at', 'updated_at']
 
-        let(:id) { Produto.create!(nome: 'Hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
-        let(:produto) { { nome: 'Hamburguer Atualizado', descricao: 'Hamburguer de carne com queijo e bacon', preco: 20.0, categoria_id: 1 } }
+        let(:id) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
+        let(:produto) { { nome: 'Hamburguer Atualizado', slug: 'hamburguer-atualizado', descricao: 'Hamburguer de carne com queijo e bacon', preco: 20.0, categoria_id: 1 } }
         run_test!
       end
 
@@ -171,8 +189,8 @@ RSpec.describe 'Produtos API', type: :request do
                  }
                }
 
-        let(:id) { Produto.create!(nome: 'Hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
-        let(:produto) { { nome: '' } }
+        let(:id) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).id }
+        let(:produto) { { nome: '', slug: '' } }
         run_test!
       end
     end
