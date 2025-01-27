@@ -1,4 +1,4 @@
 class ProdutoSerializer < ActiveModel::Serializer
-  attributes :id, :nome, :descricao, :preco, :status
+  attributes :id, :nome, :slug, :descricao, :preco, :status
   has_one :categoria
 end
