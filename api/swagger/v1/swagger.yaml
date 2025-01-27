@@ -212,11 +212,7 @@ components:
     produto:
       type: object
       properties:
-        id:
-          type: integer
         nome:
-          type: string
-        slug:
           type: string
         descricao:
           type: string
@@ -224,31 +220,16 @@ components:
           type: number
         status:
           type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
+          enum:
+          - ativo
+          - inativo
       required:
-      - id
       - nome
-      - descricao
       - preco
     categoria:
       type: object
       properties:
-        slug:
-          type: string
         nome:
           type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
       required:
-      - id
       - nome
-      - descricao
