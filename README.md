@@ -16,3 +16,7 @@ docker-compose up --build -d
 ```
 
 A aplicação estará disponível em http://localhost:3000/.
+
+# Swagger
+
+* http://localhost:3000/api-docs/index.html
