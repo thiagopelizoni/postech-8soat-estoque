@@ -6,13 +6,12 @@ class Produto < ApplicationRecord
   validates :preco, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :status, presence: true  
 
-  enum status: { ativo: 'ativo', inativo: 'inativo' }
+  enum status: { ativo: 1, inativo: 0 }
 
   scope :ativos, -> { where(status: :ativo) }
   scope :inativos, -> { where(status: :inativo) }
 
   before_create :set_default_status  
-
   before_save :generate_slug
 
   private

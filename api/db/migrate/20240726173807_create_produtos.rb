@@ -5,8 +5,8 @@ class CreateProdutos < ActiveRecord::Migration[7.1]
       t.string :slug
       t.string :descricao
       t.float :preco
-      t.string :status, default: 'ativo'
-      t.references :categoria, null: false, foreign_key: true      
+      t.integer :status, default: 1, null: false
+      t.references :categoria, null: false, foreign_key: true
 
       t.timestamps
     end
