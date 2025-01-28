@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_173807) do
     t.string "slug"
     t.string "descricao"
     t.float "preco"
-    t.string "status", default: "ativo"
+    t.integer "status", default: 1, null: false
     t.bigint "categoria_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
