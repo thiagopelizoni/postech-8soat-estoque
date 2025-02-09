@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :categoria do
-    sequence(:nome) { |n| "Categoria #{Faker::Commerce.department} #{n}" }
+    nome { Faker::Commerce.department }
+    slug { nome.to_s.parameterize }
   end
 end

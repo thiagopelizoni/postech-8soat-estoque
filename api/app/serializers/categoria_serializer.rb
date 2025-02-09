@@ -1,5 +1,5 @@
 class CategoriaSerializer < ActiveModel::Serializer
-  attributes  :slug, :nome
+  attributes :id, :slug, :nome
   has_many :produtos, if: :include_produtos?
 
   def include_produtos?
