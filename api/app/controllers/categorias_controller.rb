@@ -3,7 +3,7 @@ class CategoriasController < ApplicationController
 
   # GET /categorias
   def index
-    @categorias = Categoria.select(:nome, :slug).page(params[:page]).per(params[:per_page])
+    @categorias = Categoria.all.page(params[:page]).per(params[:per_page])
 
     render json: @categorias
   end
