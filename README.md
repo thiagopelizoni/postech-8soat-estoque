@@ -24,8 +24,4 @@ Após ajustar todos os valores presentes no arquivo .env, basta executar o coman
 docker-compose up --build -d
 ```
 
-A aplicação estará disponível em http://localhost:3000/.
-
-# Swagger
-
-* http://localhost:3000/api-docs/index.html
+A aplicação estará disponível em http://localhost:3000/ supondo o valor RAILS_PORT=3000 no arquivo .env.
