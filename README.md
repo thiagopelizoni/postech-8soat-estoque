@@ -11,6 +11,15 @@ Microsserviço de Estoque.
 
 # Instalação
 
+Caso não exista o arquivo .env previamente configurado, utilize o [.env.example](.env.example) como modelo.
+
+```
+[ ! -f .env ] && cp .env.example .env
+```
+
+Após ajustar todos os valores presentes no arquivo .env, basta executar o comando abaixo:
+
+
 ```
 docker-compose up --build -d
 ```
