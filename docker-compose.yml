@@ -8,6 +8,7 @@ services:
       - "${RAILS_PORT}:3000"
     volumes:
       - ./api:/api
+      - coverage_data:/api/coverage
     env_file:
       - .env
     depends_on:
@@ -25,5 +26,38 @@ services:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     restart: always
 
+  test-runner:
+    build:
+      context: .
+    command: bash -c "bundle exec rspec && bundle exec cucumber"
+    volumes:
+      - ./api:/api
+      - coverage_data:/api/coverage
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  sonar:
+    image: sonarsource/sonar-scanner-cli:latest
+    volumes:
+      - ./api:/api
+      - coverage_data:/api/coverage
+    env_file:
+      - .env
+    depends_on:
+      - api
+    command: >
+      sonar-scanner 
+      -Dsonar.projectKey=postech-8soat-estoque 
+      -Dsonar.organization=thiagopelizoni 
+      -Dsonar.host.url=https://sonarcloud.io 
+      -Dsonar.sources=app 
+      -Dsonar.tests=spec,features 
+      -Dsonar.exclusions=spec/**,features/** 
+      -Dsonar.coverage.exclusions="spec/**,features/**"
+      -Dsonar.ruby.coverage.reportPaths=/api/coverage/coverage.xml
+
 volumes:
   postgres_data:
+  coverage_data:
