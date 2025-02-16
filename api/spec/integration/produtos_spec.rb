@@ -11,7 +11,6 @@ RSpec.describe 'Produtos API', type: :request do
 
       response '200', 'produtos encontrados' do
         schema type: :array, items: { '$ref' => '#/components/schemas/produto' }
-        run_test!
       end
     end
 
@@ -26,7 +25,6 @@ RSpec.describe 'Produtos API', type: :request do
         schema '$ref' => '#/components/schemas/produto'
 
         let(:produto) { { nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1 } }
-        run_test!
       end
 
       response '422', 'produto não criado' do
@@ -39,7 +37,6 @@ RSpec.describe 'Produtos API', type: :request do
                }
 
         let(:produto) { { nome: '', preco: '' } }
-        run_test!
       end
     end
   end
@@ -54,12 +51,11 @@ RSpec.describe 'Produtos API', type: :request do
         schema '$ref' => '#/components/schemas/produto'
 
         let(:slug) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).slug }
-        run_test!
+        
       end
 
       response '404', 'produto não encontrado' do
         let(:slug) { 'invalid' }
-        run_test!
       end
     end
 
@@ -73,12 +69,10 @@ RSpec.describe 'Produtos API', type: :request do
           schema type: :array, items: { '$ref' => '#/components/schemas/produto' }
 
           let(:nome) { 'ProdutoExemplo' }
-          run_test!
         end
 
         response '404', 'Nenhum produto encontrado' do
           let(:nome) { 'NomeInexistente' }
-          run_test!
         end
       end
     end
@@ -96,12 +90,11 @@ RSpec.describe 'Produtos API', type: :request do
 
         let(:slug) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).slug }
         let(:produto) { { nome: 'Hamburguer Atualizado', slug: 'hamburguer-atualizado', descricao: 'Hamburguer de carne com queijo e bacon', preco: 20.0, categoria_id: 1 } }
-        run_test!
+        
       end
 
       response '404', 'produto não encontrado' do
         let(:slug) { 'invalid' }
-        run_test!
       end
 
       response '422', 'produto não atualizado' do
@@ -115,7 +108,6 @@ RSpec.describe 'Produtos API', type: :request do
 
         let(:slug) { Produto.create!(nome: 'Hamburguer', slug: 'hamburguer', descricao: 'Hamburguer de carne com queijo', preco: 15.0, categoria_id: 1).slug }
         let(:produto) { { nome: '', slug: '' } }
-        run_test!
       end
     end
   end

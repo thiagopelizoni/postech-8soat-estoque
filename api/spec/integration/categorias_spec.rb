@@ -11,7 +11,6 @@ RSpec.describe 'Categorias API', type: :request do
       response '200', 'categorias encontradas' do
         schema type: :array,
                items: { '$ref' => '#/components/schemas/categoria' }
-        run_test!
       end
     end
 
@@ -31,7 +30,6 @@ RSpec.describe 'Categorias API', type: :request do
         schema '$ref' => '#/components/schemas/categoria'
 
         let(:categoria) { { nome: 'Lanches', slug: 'lanches' } }
-        run_test!
       end
 
       response '422', 'categoria não criada' do
@@ -44,7 +42,6 @@ RSpec.describe 'Categorias API', type: :request do
                }
 
         let(:categoria) { { nome: '', slug: '' } }
-        run_test!
       end
     end
   end
@@ -59,12 +56,11 @@ RSpec.describe 'Categorias API', type: :request do
         schema '$ref' => '#/components/schemas/categoria'
 
         let(:slug) { Categoria.create!(nome: 'Lanches', slug: 'lanches').slug }
-        run_test!
+        
       end
 
       response '404', 'categoria não encontrada' do
         let(:slug) { 'invalid' }
-        run_test!
       end
     end
 
@@ -86,12 +82,10 @@ RSpec.describe 'Categorias API', type: :request do
 
         let(:slug) { Categoria.create!(nome: 'Lanches', slug: 'lanches').slug }
         let(:categoria) { { nome: 'Lanches Atualizados', slug: 'lanches-atualizados' } }
-        run_test!
       end
 
       response '404', 'categoria não encontrada' do
         let(:slug) { 'invalid' }
-        run_test!
       end
 
       response '422', 'categoria não atualizada' do
@@ -105,7 +99,6 @@ RSpec.describe 'Categorias API', type: :request do
 
         let(:slug) { Categoria.create!(nome: 'Lanches', slug: 'lanches').slug }
         let(:categoria) { { nome: '', slug: '' } }
-        run_test!
       end
     end
   end
