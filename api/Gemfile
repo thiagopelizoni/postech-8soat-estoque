@@ -22,6 +22,11 @@ group :development, :test do
   gem 'database_cleaner', '~> 2.0', '>= 2.0.2'
 end
 
+group :test do
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
+end
+
 gem 'rswag'
 gem 'rswag-api'
 gem 'rswag-ui'

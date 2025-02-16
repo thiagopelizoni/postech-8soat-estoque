@@ -270,6 +270,7 @@ GEM
     regexp_parser (2.10.0)
     reline (0.5.9)
       io-console (~> 0.5)
+    rexml (3.4.1)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.1)
@@ -308,6 +309,9 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (2.1.0)
+      rexml
+      simplecov (~> 0.19)
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
     stringio (3.1.1)
@@ -353,6 +357,7 @@ DEPENDENCIES
   rswag-ui
   shoulda-matchers
   simplecov
+  simplecov-cobertura
 
 RUBY VERSION
    ruby 3.3.2p78
